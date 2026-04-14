@@ -38,9 +38,8 @@ app.use("/public", express.static(path.join(__dirname, "public")));
 const frontendPath = path.join(__dirname, "dist"); 
 app.use(express.static(frontendPath));
 
-// Sabse last mein ye wildcard route
-app.get("*", (req, res) => {
-    res.sendFile(path.resolve(frontendPath, "index.html"));
+app.get("/*", (req, res) => {
+    res.sendFile(path.join(frontendPath, "index.html"));
 });
 
 // 6. Server Start

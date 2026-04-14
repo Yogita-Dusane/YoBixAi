@@ -58,18 +58,19 @@ function Home() {
     utterance.onstart = () => setIsSpeaking(true);
     utterance.onend = () => setIsSpeaking(false);
     window.speechSynthesis.speak(utterance);
-  };
-useEffect(() => {
-  if (userData?.name && !hasGreeted.current) {
-    hasGreeted.current = true; // 👈 Isey setTimeout ke BAHAR pehle likh dein
-    const firstName = userData.name.split(" ")[0];
-    const greetingText = `Hello ${firstName}, your assistant ${userData.assistantName || "Shifra"} is online.`;
+  };useEffect(() => {
+  if (!loading && userData?.name && !hasGreeted.current) {
+    console.log("Attempting to Greet..."); // Console mein check karne ke liye
+    hasGreeted.current = true;
     
+    // Thoda zyada delay dete hain taaki voices load ho jayein
     setTimeout(() => {
-      speak(greetingText);
-    }, 1500);
+      const firstName = userData.name.split(" ")[0];
+      const text = `Hello ${firstName}, your assistant ${userData.assistantName || "Shifra"} is online.`;
+      speak(text);
+    }, 2500); 
   }
-}, [userData]);
+}, [userData, loading]);
  
   const handleSendMessage = async (textFromVoice = null) => {
     const input = (textFromVoice || chatInput).trim();
